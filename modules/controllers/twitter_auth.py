@@ -1,6 +1,4 @@
 from tweepy import OAuthHandler, API
-# import sys
-# sys.path.insert(0, "/Users/sukumnilphet/python/twitter_presenter/private")
 from private.twitter_token import twitter_token
 twitter_token_v = twitter_token()
 consumer_key = twitter_token_v['consumer_key']
