@@ -1,5 +1,8 @@
 from tweepy import OAuthHandler, API
 from private.twitter_token import twitter_token
+import os
+
+env_s = lambda value: os.environ[value]
 twitter_token_v = twitter_token()
 consumer_key = twitter_token_v['consumer_key']
 consumer_secret = twitter_token_v['consumer_secret']
