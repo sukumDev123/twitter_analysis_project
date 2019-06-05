@@ -1,3 +1,4 @@
+from modules.controllers.analysis_text import text_cut_word
 handle_data_direct = lambda ids_, created_ats, texts, sources, favorite_counts, langs: {
     "id": ids_,
     "created_at": created_ats,
@@ -28,7 +29,9 @@ def handle_user_timeline_data(datas):
         'reply_to': [],
         "retweet_c": [],
         'geo': [],
-        'hashtags': []
+        'hashtags': [],
+        'user': [],
+        'created_at': []
     }
     for jj in range(size):
         user = datas[jj]['user']
@@ -47,5 +50,7 @@ def handle_user_timeline_data(datas):
         tempp['retweet_c'].append(retweet_count)
         tempp['geo'].append(geo)
         tempp['id'].append(datas[jj]['id'])
-        tempp['text'].append(datas[jj]['text'])
+        tempp['text'].append((datas[jj]['text']))
+        tempp['created_at'].append(datas[jj]['created_at'])
+        tempp['user'].append(datas[jj]['user']['screen_name'])
     return tempp

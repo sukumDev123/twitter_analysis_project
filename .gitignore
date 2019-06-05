@@ -3,3 +3,7 @@ private/
 __pycache__
 files_csv
 json_files
+
+*.csv
+*.json
+gg
