@@ -7,3 +7,6 @@ json_files
 *.csv
 *.json
 gg
+*.txt
+sentiment/
+profiles

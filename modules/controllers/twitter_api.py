@@ -19,7 +19,7 @@ class TwitterAPI:
 
     def get_search_cursor(self, q):
         temp = []
-        for tweets in Cursor(self.api.search, q=q, count=200).pages(22):
+        for tweets in Cursor(self.api.search, q=q, count=200).pages(100):
             for gg in tweets:
                 temp.append(gg._json)
         return temp

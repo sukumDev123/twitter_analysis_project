@@ -1,4 +1,5 @@
 def createC1(dataSet):
+    print("create c1\n")
     C1 = []
     for transaction in dataSet:
         for item in transaction:
@@ -11,6 +12,8 @@ def createC1(dataSet):
 
     #can use it as a key in a dict
 def scanD(D, Ck, minSupport):
+    print("scanD\n")
+
     ssCnt = {}
     for tid in D:
         for can in Ck:
@@ -29,6 +32,8 @@ def scanD(D, Ck, minSupport):
 
 
 def aprioriGen(Lk, k):  #creates Ck
+    print("aprioriGen\n")
+
     retList = []
     lenLk = len(Lk)
     for i in range(lenLk):
@@ -43,6 +48,8 @@ def aprioriGen(Lk, k):  #creates Ck
 
 
 def apriori(dataSet, minSupport=0.5):
+    print("apriori\n")
+
     C1 = (createC1(dataSet))
     D = (list(map(set, dataSet)))
     L1, supportData = scanD(D, C1, minSupport)
@@ -57,29 +64,38 @@ def apriori(dataSet, minSupport=0.5):
     return L, supportData
 
 
-def calcConf(freqSet, H, supportData, brl, minConf=0.7):
+def calcConfAndLiff(freqSet, H, supportData, brl, minConf=0.7):
+    print("calcConfAndLiff\n")
+
     prunedH = []  #create new list to return
     for conseq in H:
         conf = supportData[freqSet] / supportData[freqSet -
                                                   conseq]  #calc confidence
+        liff = supportData[freqSet] / (supportData[freqSet - conseq] *
+                                       supportData[conseq])
+
         if conf >= minConf:
-            # print(freqSet - conseq, '-->', conseq, 'conf:', conf)
-            brl.append((freqSet - conseq, conseq, conf))
+            print("ss {} {}".format(freqSet, conseq), freqSet - conseq, '-->',
+                  conseq, 'conf:', conf, ' liff: ', liff)
+            brl.append((freqSet - conseq, conseq, conf, liff))
             prunedH.append(conseq)
     return prunedH
 
 
 def rulesFromConseq(freqSet, H, supportData, brl, minConf=0.7):
+    print('rulesFromConseq\n')
     m = len(H[0])
     if (len(freqSet) > (m + 1)):  #try further merging
         Hmp1 = aprioriGen(H, m + 1)  #create Hm+1 new candidates
-        Hmp1 = calcConf(freqSet, Hmp1, supportData, brl, minConf)
+        Hmp1 = calcConfAndLiff(freqSet, Hmp1, supportData, brl, minConf)
         if (len(Hmp1) > 1):  #need at least two sets to merge
             rulesFromConseq(freqSet, Hmp1, supportData, brl, minConf)
 
 
 def generateRules(L, supportData,
                   minConf=0.7):  #supportData is a dict coming from scanD
+    print('generateRules\n')
+
     bigRuleList = []
     for i in range(1, len(L)):  #only get the sets with two or more items
         for freqSet in L[i]:
@@ -87,5 +103,5 @@ def generateRules(L, supportData,
             if (i > 1):
                 rulesFromConseq(freqSet, H1, supportData, bigRuleList, minConf)
             else:
-                calcConf(freqSet, H1, supportData, bigRuleList, minConf)
+                calcConfAndLiff(freqSet, H1, supportData, bigRuleList, minConf)
     return bigRuleList

@@ -1,22 +1,32 @@
 from pythainlp import word_tokenize
 import re
-regex_text = lambda data: word_tokenize(data, engine='newmm')
+regex_text = lambda data: word_tokenize(data)
 
-filterCut = lambda x, word_not_need: re.match(r'[ก-๙]+', x
+filterCut = lambda x, word_not_need: re.match(r'[a-zA-Zก-๙]+|', x
                                               ) and x not in word_not_need
 
 #filterCut(x, word_not_need)
+test = lambda texts: re.split(r'', texts)
+
+
+def handleString(texts):
+    toString = ""
+    for word in list(filter(lambda x: x != "", texts)):
+        toString += word + ' '
+    return toString
+
+
 text_cut_word = lambda texts, word_not_need: list(
-    filter(lambda x: filterCut(x, word_not_need), regex_text(texts)))
+    filter(lambda x: filterCut(x, word_not_need), regex_text((texts))))
 
-# re.findall( r'@[a-zA-Zก-๙0-9]+|#[a-zA-Zก-๙0-9]+', texts, re.MULTILINE)
+# list(
+#     filter(lambda x: filterCut(x, word_not_need),
+#            regex_text()))
 
-#
+text_cut_hashtag = lambda texts: re.findall(r'#[a-zA-Zก-๙0-9]+', texts, re.
+                                            MULTILINE)
 
 
-#
-#(?<=[\s>])#(\d*[A-Za-z_]+\d*)\b(?!;)
-#
 def find_unique_word(texts_cut, size):
 
     temp = []

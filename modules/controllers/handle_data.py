@@ -26,31 +26,31 @@ def handle_user_timeline_data(datas):
     tempp = {
         "id": [],
         "text": [],
-        'reply_to': [],
-        "retweet_c": [],
-        'geo': [],
-        'hashtags': [],
-        'user': [],
-        'created_at': []
+        "name": [],
+        'created_at': [],
+        'likes': [],
+        'retweets': [],
+        'screen_name': [],
+        'location': []
     }
     for jj in range(size):
-        user = datas[jj]['user']
-        description = user['description']
-        screen_name = user['screen_name']
-        entities = datas[jj]['entities']
-        hashtags_ = entities['hashtags']
-        if len(hashtags_) != 0:
-            tempp['hashtags'].append([hash for hash in hashtags_])
-        else:
-            tempp['hashtags'].append(None)
-        in_reply_to_screen_name = datas[jj]['in_reply_to_screen_name']
+
         retweet_count = datas[jj]['retweet_count']
-        geo = datas[jj]['geo']
-        tempp['reply_to'].append(in_reply_to_screen_name)
-        tempp['retweet_c'].append(retweet_count)
-        tempp['geo'].append(geo)
+        print("==================\n")
+        print("TT : ", datas[jj]['text'])
+        print("TT : ", datas[jj]['user'])
+
+        print("EE : ", datas[jj]['favorite_count'])
+        print("lang : ", datas[jj]['lang'])
+        print("==================\n")
+        # tempp['replies'].append(datas[jj]['reply_count'])
+        tempp['retweets'].append(retweet_count)
+        # tempp['geo'].append(geo)
+        tempp['likes'].append(datas[jj]['favorite_count'])
         tempp['id'].append(datas[jj]['id'])
         tempp['text'].append((datas[jj]['text']))
         tempp['created_at'].append(datas[jj]['created_at'])
-        tempp['user'].append(datas[jj]['user']['screen_name'])
+        tempp['screen_name'].append(datas[jj]['user']['screen_name'])
+        tempp['name'].append(datas[jj]['user']['name'])
+        tempp['location'].append(datas[jj]['user']['location'])
     return tempp
